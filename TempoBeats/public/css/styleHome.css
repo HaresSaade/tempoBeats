@@ -1,0 +1,430 @@
+*{
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif ;
+ 
+  }
+ 
+   .main{
+    height: 100vh;
+    display: flex;
+    flex-wrap: wrap;
+   }
+    .leftbar{
+        margin: 0;
+        width: 20%;
+        height: 100%;
+        background-color: black;
+       
+    }
+    .leftbar .logo{
+        width: 70%;
+        margin:20px 42px;
+    }
+    h3 , .link , .link2{
+        color: white;
+    }
+  .leftbar  h3{
+        width: 70%;
+        margin: auto;
+        height: 3vh;
+        padding-top: 50px;
+        letter-spacing: 0.25px;
+    }
+    .navigation{
+        list-style: none;
+        width: 70%;
+        margin:60px auto;
+       
+    }
+    .navigation .link{
+      padding: 5px;
+    display: flex;
+    align-items: baseline;
+    justify-content: flex-start;
+    }
+    .navigation .link:hover{
+      cursor: pointer;
+     /* border-bottom: 2px solid white;
+      transition:0.5s;
+      padding: 10px;
+      cursor: pointer;*/
+    }
+    .nav2{
+        list-style: none;
+        width: 70%;
+        margin: auto;
+    }
+    .nav2 .link2{
+      cursor: pointer;
+      padding: 6px;
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+
+    }
+    .right{  
+      width: 80%;
+      
+    }
+    i{
+      margin-right: 7px;
+      font-size: 18px;
+    }
+    #plussign,#Hsign{
+      font-size: 15px
+    }
+    .fas.plusDiv{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #B7B7B7;
+      width:20px;
+      border-radius: 3px;
+    }
+    .fas.HDiv{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: rgb(214, 175, 44);
+      width:20px;
+      border-radius: 3px;
+    }
+    .topbar{
+      
+      padding: 15px;
+        height: 50px;
+        width: 100%;
+        background-color: #131313;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        position: sticky;
+      z-index: 9999;
+    }
+    .switcher{
+        width: 5vw;
+        height: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: baseline;
+        justify-content: space-between;
+        margin-left: 30px;
+    }
+.topbar .backword , .topbar .forward{
+font-size: 22px;
+color:white;
+ border-radius: 50%;
+ background-color: black;
+ width: 28px;
+ height: 28px;
+display: flex;
+justify-content: center;
+align-items: baseline;
+ }
+
+
+
+
+  .credentials{
+    height: 100%;
+    width: 16vw;
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: row;
+    margin-right:20px;
+  }
+
+
+  .credentials .SU{
+    color: white;
+    font-family: sans-serif;
+    cursor: pointer;
+   
+  }
+  .credentials .LI{
+    border-radius: 20px;
+    height: 35px;
+    width: 40%;
+    text-align: center;
+    padding-top: 6px;
+    background-color: white;
+    font-weight: 600;
+    margin-top: -5px;
+    cursor: pointer;
+  }
+  .Account{
+    width: 120px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    padding-top: 4px;
+    border-radius: 25px;
+    cursor: pointer;
+    position: relative;
+  }
+  .Account i{
+    margin-top: -1.5px;
+    cursor: pointer;
+  }
+  .musicmenu{
+    width:100%;
+    background-color: #1d1b1b;
+    max-height: 93.4vh; 
+    overflow-y:overlay;
+  }
+  .row{
+    position: relative;
+    top:10px;
+    left: 2%;
+    width: 95%;
+    padding: 5px;
+  }
+  .RowC{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+   
+  }
+  .titleR{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .sh{
+    color:rgb(186, 182, 182);
+    font-size: 14px;
+    font-weight: bold;
+    padding-top:20px;
+    margin-right: 35px;
+  }
+  .musicmenu .title{
+    color:white;
+    margin-left: 20px;
+    padding-top:20px;
+    font-weight: bolder;
+  }
+  .musicmenu .album{
+   
+    margin-top:30px;
+    margin-left: 20px;
+    margin-bottom: 10px;
+    display: flex;
+    width: 200px;
+    height: 250px;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow:-2px 5px 7px #131313;
+    border-radius:15px;
+    padding: 10px;
+    cursor: pointer;
+  }
+  .musicmenu .album img{
+    width: 180px;
+    border-radius: 15px;
+  }
+  .musicmenu h4{
+    letter-spacing: 1px;
+    font-size: 22px;
+   
+  }
+  .musicmenu .album .musictitle{
+    font-size: 19px;
+    color: white;
+    padding-top:5px;
+    font-weight: bolder;
+  }
+  .musicmenu .album .author{
+    font-size: 10px;
+    color: rgb(186, 182, 182);
+    font-weight: bold;
+    padding-top: 1px;
+  }
+.musicmenu .album .playbtn{
+  display: block;
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  background-color: rgb(214, 175, 44);
+  opacity: 0;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  margin-left: 120px;
+  margin-top: 55px;
+  color: white;
+  transition: opacity 0.25s ease-in-out;
+ 
+}
+
+.musicmenu .playlist{
+  margin-top:30px;
+  margin-left: 20px;
+  margin-bottom: 10px;
+  display: flex;
+  min-width: 200px;
+  min-height: 200px;
+  flex-direction: column;
+  justify-content: flex-end;
+  box-shadow:-2px 5px 7px #131313;
+  border-radius:15px;
+  background-size: cover;
+  transition: background-size 1s ease;
+  cursor: pointer;
+}
+.musicmenu .playlist .text{
+  display: none;
+  min-height: 200px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  background:rgba(15, 14, 14, 0.5)  ;
+  color: white;
+}
+.text p{
+  margin-top: -10px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  font-size: 12px;
+  padding: 5px;
+  width: 95%;
+
+} 
+.breakline{
+  min-height: 15vh;
+}
+.fas.plybtn{
+ margin-top: 14px;
+ margin-left:18px ;
+ font-size: 22px;
+ color: #131313;
+}
+.breakline hr{
+  margin-top: 75px;
+  margin-left: 15px;
+  border-radius: 15px;
+  border: none;
+  height: 2px;
+  background-color: rgb(186, 182, 182); 
+  opacity: 0.3;
+}
+  #bottom{
+    position: absolute;
+    left: 0;
+    height: 10vh;
+    background-color: rgb(214, 175, 44);
+    display:flex;
+    flex-direction:row;
+    justify-content:flex-start;
+    align-items: center;
+    width: 100%;
+    bottom: 0;
+  }
+  #bottom .bleft{
+    position: relative;
+    left:17px;
+    width: 85vw;
+  }
+  #bottom .text1{
+    font-size: 16px;
+    width: 60vw;
+  }
+  #bottom .text2{
+    font-size: 14px;
+    margin-top: -5px;
+    width: 60vw;
+   
+  }
+  #bottom .BSU{
+    border-radius: 20px;
+    height: 30px;
+    width: 10%;
+    text-align: center;
+    padding-top:5px;
+    background-color: white;
+    font-weight: 600;
+    margin-right: 20px;
+  }
+
+  .musicmenu::-webkit-scrollbar {
+    width: 8px; 
+    opacity: 0;
+  }
+
+  .musicmenu::-webkit-scrollbar-track {
+    background: rgba(15, 14, 14, 0.75); 
+  }
+
+  .musicmenu::-webkit-scrollbar-thumb {
+    background: rgb(214, 175, 44); 
+    border-radius: 20px;
+    width: 7px;
+  }
+
+  .musicmenu::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+  }
+
+  
+  
+  .accbtn {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    cursor: pointer;
+    color: white;
+    margin: 0;
+    margin-left: -75px;
+  }
+  
+  
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    margin-top: 6px;
+    right: 25px;
+    background-color: #282626;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 10000; 
+    color: white;
+    border-radius: 7px;
+  }
+  
+  .dropdown-content .dpc {
+    display: flex;
+    padding: 5px 0;
+    padding-left: 7px;
+    cursor: pointer;
+    min-height: 45px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  
+  .dropdown-content .dpc:hover {
+    background-color: rgba(241, 241, 241,0.1);
+    border-radius: 7px;
+  }
+  .dpc a ,.dpc a:hover{
+    color: inherit;
+    padding: 5px 0;
+    padding-left: 7px;
+    text-decoration: none;
+  }
+  #logt{
+    margin-left: 7px;
+  }
+  .dropdown-content hr{
+    width: 88%;
+    margin: 0;
+    margin-left: 10px;
+  }
+
+  
