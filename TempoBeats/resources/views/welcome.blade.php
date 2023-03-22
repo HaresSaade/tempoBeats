@@ -1,5 +1,5 @@
 <html>
-    <head><title>TempoBeat</title>
+    <head><title>TempoBeat - Music for Every Moment!</title>
     <link href="{{ asset('css/styleHome.css') }}" rel="stylesheet">
 
     <link rel="icon" type="image/x-icon" href="{{asset('images/TBLogo.png')}}">
@@ -14,7 +14,7 @@
         <div class="leftBar">
             <img class="logo" src="{{ asset('images/temp.png') }}" />
             <ul class="navigation">
-            <li class="link"><i class="material-icons">home</i> Home</li>
+            <li class="link"><i class="material-icons hm" >home</i> Home</li>
             <li class="link"><i class="fas fa-search"></i>  Search</li>
             <li class="link"><i class="glyphicon glyphicon-cd"></i> Your Library</li>
            </ul>
@@ -161,7 +161,37 @@
     @if (Route::has('login'))
         
             @auth
-            
+            <div class="bottombar">
+            <div class="left">
+                     <i class="material-icons">headset</i>
+                <div class="creds">
+                    <p class="title">I Wanna Be Yours</p>
+                    <p class="artist">Arctic Monkey</p>
+                </div>
+                <i class='fas fa-heart' style="color:rgb(214, 175, 44)"></i>
+            </div>
+            <div class="middle">
+                <div class="buttons">
+                     <i class="material-icons">shuffle</i>
+                     <i class="material-icons">skip_previous</i>
+                    <i class="fas fa-play"></i>
+                    <i class="material-icons">skip_next</i>
+                    <i class="material-icons">repeat</i>
+                </div>
+                <div class="musicbar">
+                    <p class="initial">0:00</p>
+                    <hr>
+                    <p class="final">3:03</p>
+                </div>
+            </div>
+            <div class="right">
+                <i class="material-icons">menu</i>
+                <i class="fa fa-volume-down"></i>
+                <div class="volumebar">
+                    <hr class="level">
+                </div>
+            </div>
+        </div>
             @else
             <div id="bottom">
             <div class="bleft">
@@ -181,6 +211,8 @@
 
     <script src="{{ asset('js/Home.js') }}"></script>
     <script>
+        
+
         const logbtn = document.querySelector(".LI");
         logbtn.addEventListener("click", ()=>{
             console.log("Hello, you clicked the login button");

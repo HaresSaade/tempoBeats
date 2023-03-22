@@ -32,5 +32,9 @@
                 ele.style.opacity="1";
                text.style.display="none";
             })
+
+            ele.addEventListener("click",()=>{
+                window.location.href = "/playlist/" + 656151654645;
+            })
         });
 
