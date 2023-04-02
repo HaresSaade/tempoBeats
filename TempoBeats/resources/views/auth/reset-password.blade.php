@@ -1,4 +1,22 @@
-<x-guest-layout>
+<!DOCTYPE html>
+<head>
+    <title> @yield('title', 'Default Title')</title>
+    <link href="{{ asset('css/styleHome.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/search.css') }}" rel="stylesheet">
+
+    <link rel="icon" type="image/x-icon" href="{{asset('images/TBLogo.png')}}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+        integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        
+
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+    </head>
+<html>
     <form method="POST" action="{{ route('password.store') }}">
         @csrf
 
@@ -36,4 +54,4 @@
             </x-primary-button>
         </div>
     </form>
-</x-guest-layout>
+</html>

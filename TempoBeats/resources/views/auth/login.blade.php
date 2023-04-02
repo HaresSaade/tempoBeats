@@ -6,6 +6,7 @@
     <meta charset="utf-8">
     <title>Login - TempoBeats</title>
     <link rel="icon" type="image/x-icon" href="{{asset('images/TBLogo.png')}}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="{{ asset('css/style_login.css') }}">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
 </Head>
@@ -40,10 +41,20 @@
             @csrf
                 <label for="email">Email address or username</label>
                 <input  id="email" class="email" type="email" name="email" placeholder="Email" require/>
-                <x-input-error :messages="$errors->get('email')" class="mt-2" />
                 <label for="pass">Password</label>
                 <input id="password" class="pass" type="password" name="password" placeholder="Password" require/>
-                <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                
+                @if ($errors->has('email'))
+                 <span class="Error-msg" role="alert">
+                           <strong>{{ $errors->first('email') }}</strong>
+                 </span>
+                @endif
+                @if ($errors->has('password'))
+                 <span class="Error-msg" role="alert">
+                           <strong>{{ $errors->first('password') }}</strong>
+                 </span>
+                @endif
+               
                 @if (Route::has('password.request'))
                 <a href="{{ route('password.request') }}">
                     {{ __('Forgot your password?') }}
@@ -61,6 +72,12 @@
                 <button><p>SIGN UP FROM TEMPOBEATS</p></button>
             </div>
         </div>   
-    <script src="" async></script>
+    <script async>
+        const subtn = document.querySelector(".signup");
+        subtn.addEventListener('click',()=>{
+                console.log("sign up btn clicked");
+                window.location.href= "{{ route('register')}}";
+            })
+    </script>
 </body>
 </html>

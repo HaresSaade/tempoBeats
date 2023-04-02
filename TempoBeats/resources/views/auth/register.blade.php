@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <title>Register - TempoBeats</title>
     <link rel="icon" type="image/x-icon" href="{{asset('images/TBLogo.png')}}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="{{ asset('css/style_R.css') }}">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
         integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
@@ -39,7 +40,7 @@
 
     <form method="POST" action="{{ route('register') }}" class="email-login">
         @csrf
-
+        <input type="hidden" name="_token" value="{{ csrf_token() }}">
         <label for="email">Email address</label>
                 <input class="email" type="email" name="email" placeholder="Email" />
                 <x-input-error :messages="$errors->get('email')" class="mt-2" />
@@ -62,7 +63,7 @@
                       <label for="Female">Female</label>
                       <input type="radio" id="Other" name="gender" value="Other">
                       <label for="Other">Other</label>
-                    <input type="radio" id="PreferN" name="gender" value="PreferN">
+                    <input type="radio" id="PreferN" name="gender" value="">
                       <label for="PreferN">Prefer not to say</label>
                 </div>
                 <div class="check">
@@ -82,7 +83,7 @@
                 <input type="submit" class="btn" value="Sign Up" />
             </form>
             <div class="login">
-                <p>Have an account? <a href="#">Log in.</a></p>
+                <p>Have an account? <a href="">Log in.</a></p>
 
             </div>
         </div>
