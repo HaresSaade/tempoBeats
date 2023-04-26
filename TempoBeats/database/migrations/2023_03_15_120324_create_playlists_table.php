@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('playlists', function (Blueprint $table) {
             $table->id();
             $table->string("Name");
+            $table->string("imgsrc");
+            $table->string('bgc');
             $table->timestamps();
         });
     }

@@ -1,4 +1,4 @@
-<section class="space-y-6">
+<div class="space-y-6">
     <header>
         <h2 class="text-lg font-medium text-gray-900">
             {{ __('Delete Account') }}
@@ -12,6 +12,7 @@
     <x-danger-button
         x-data=""
         x-on:click.prevent="$dispatch('open-modal', 'confirm-user-deletion')"
+        id="Dac"
     >{{ __('Delete Account') }}</x-danger-button>
 
     <x-modal name="confirm-user-deletion" :show="$errors->userDeletion->isNotEmpty()" focusable>
@@ -46,10 +47,10 @@
                     {{ __('Cancel') }}
                 </x-secondary-button>
 
-                <x-danger-button class="ml-3">
+                <x-danger-button  class="ml-3">
                     {{ __('Delete Account') }}
                 </x-danger-button>
             </div>
         </form>
     </x-modal>
-</section>
+</div>

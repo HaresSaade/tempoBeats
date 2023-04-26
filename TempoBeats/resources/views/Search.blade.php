@@ -80,5 +80,5 @@
               </div>
 </div>
         
-    <script src="{{ asset('js/Home.js') }}"></script>
+   
 @endsection

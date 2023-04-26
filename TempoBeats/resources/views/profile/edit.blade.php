@@ -1,29 +1,62 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Profile') }}
-        </h2>
-    </x-slot>
+@extends('layouts.app')
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
+@section('title', 'Profile')
+
+@section('content')
+<style>
+    
+    .profilemain{
+        display:block;
+        padding:15px;
+        max-height:92vh;
+        background-color:#1d1b1b;
+    }
+    .profilemain input{
+        margin:5px;
+    }
+    .profilemain button{
+        margin:5px;
+    }
+    .profilemain label{
+        margin:5px;
+    }
+    .profilemain p{
+        margin:5px;
+    }
+    
+    #Dac{
+        width:115px;
+        height:40px;
+    }
+    #resend-btn{
+        width:65px;
+    }
+    </style>
+  <div class="profilemain">
+            
+                <div >
                     @include('profile.partials.update-profile-information-form')
                 </div>
-            </div>
+            
 
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
+            
+                <div >
                     @include('profile.partials.update-password-form')
                 </div>
-            </div>
+            
 
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
+            
+                <div >
                     @include('profile.partials.delete-user-form')
                 </div>
-            </div>
-        </div>
+            
+        
+  
+    <div class="row">
+                    <div class="breakline">
+                        <hr>
+                    </div>
+              </div>
+
     </div>
-</x-app-layout>
+@endsection

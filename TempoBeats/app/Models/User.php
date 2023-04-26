@@ -55,4 +55,23 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasOne(Artist::class);
     }
+
+    public function LikedPlaylist()
+    {
+        return $this->hasOne(likedPlaylist::class);
+    }
+
+    public function Subscription()
+    {
+        return $this->hasOne(Subscription::class);
+    }
+
+    public function getRole(){
+        return $this->belongsToMany(role::class,'userroles','user_id','role_id');
+    }
+
+    public function hasRole($roleName)
+    {
+        return $this->getRole()->where('name', $roleName)->exists();
+    }
 }

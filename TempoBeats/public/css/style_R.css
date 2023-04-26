@@ -234,3 +234,10 @@ input[type="radio"]:checked {
     height: 20px;
     border-width: thin;
 }
+
+.Error-msg{
+    font-size: 15px;
+    color: rgb(221, 41, 41);
+    margin: 5px;
+    margin-bottom: 12px;
+}

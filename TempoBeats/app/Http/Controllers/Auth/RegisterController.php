@@ -59,8 +59,23 @@ class RegisterController extends Controller
         $requireVerification = config('auth.registration.require_verification');
         $rules = [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'birthday' => ['required', 'date'],
+            'email' => [
+                'required',
+                'string',
+                'email',
+                'max:255',
+                'unique:users',
+                function ($attribute, $value, $fail) {
+                    // Extract the domain from the email
+                    $domain = substr(strrchr($value, "@"), 1);
+                    
+                    // Check if the domain is valid
+                    if (!in_array($domain, ['gmail.com', 'icloud.com', 'yahoo.com', 'outlook.com'])) {
+                        $fail('The '.$attribute.' must be a valid email address.');
+                    }
+                }
+            ],
+            'birthday' => ['required', 'date', 'before_or_equal:' . now()->subYears(10)->format('Y-m-d')],
             'gender' => ['required', Rule::in(['Male', 'Female','Other', null])],
             'password' => ['required', 'string', 'min:8','regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$/','max:16', 'confirmed'],
         ];
@@ -68,7 +83,12 @@ class RegisterController extends Controller
             $rules['email'] = array_merge($rules['email'], ['unique:users,email_verified_at,NULL']);
         }
 
-        return Validator::make($data, $rules);
+       // return Validator::make($data, $rules);
+       $messages = [
+        'birthday.before_or_equal' => 'Minimum age requirement is 10 or Older',
+    ];
+    
+        return Validator::make($data, $rules, $messages);
     }
 
     /**
@@ -82,6 +102,7 @@ class RegisterController extends Controller
         $birthday = new DateTime($data['birthday']);
         $today = new DateTime();
         $age = $today->diff($birthday)->y;
+        $Role = 0;
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],

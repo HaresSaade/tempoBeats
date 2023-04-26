@@ -43,18 +43,39 @@
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
         <label for="email">Email address</label>
                 <input class="email" type="email" name="email" placeholder="Email" />
-                <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                @if ($errors->has('email'))
+                 <span class="Error-msg" role="alert">
+                           <strong>{{ $errors->first('email') }}</strong>
+                 </span>
+                @endif
                 <label for="pass">Password</label>
                 <input class="pass"   name="password" type="password" placeholder="Password" />
-                <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                @if ($errors->has('password'))
+                 <span class="Error-msg" role="alert">
+                           <strong>{{ $errors->first('password') }}</strong>
+                 </span>
+                @endif
                 <label for="cpass">Confirm Password</label>
                 <input name="password_confirmation" class="cpass" type="password" placeholder="Confirm Password" />
-                <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+                @if ($errors->has('password_confirmation'))
+                 <span class="Error-msg" role="alert">
+                           <strong>{{ $errors->first('password_confirmation') }}</strong>
+                 </span>
+                @endif
                 <label for="UserName">UserName</label>
                 <input class="UserName" type="text" name="name" placeholder="UserName" />
-                <x-input-error :messages="$errors->get('name')" class="mt-2" />
+                @if ($errors->has('name'))
+                 <span class="Error-msg" role="alert">
+                           <strong>{{ $errors->first('name') }}</strong>
+                 </span>
+                @endif
                 <label for="birthday">Date of birth</label>
-                <input type="date" id="birthday" name="birthday"><br>
+                <input type="date" id="birthday" name="birthday">
+                @if ($errors->has('birthday'))
+                 <span class="Error-msg" role="alert">
+                           <strong>{{ $errors->first('birthday') }}</strong>
+                 </span>
+                @endif<br>
                 <label for="Gender">Gender</label>
                 <div class="radioG">
                     <input type="radio" id="Male" name="gender" value="Male">

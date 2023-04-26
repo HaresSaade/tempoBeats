@@ -16,10 +16,9 @@ return new class extends Migration
             $table->string("Name");
             $table->string("lyrics");
             $table->float("Duration");
+            $table->string("imgsrc");
             $table->unsignedBigInteger('album_id')->nullable();
             $table->foreign('album_id')->references('id')->on('albums')->onDelete('cascade');
-            $table->unsignedBigInteger('artist_id')->nullable();
-            $table->foreign('artist_id')->references('id')->on('artists')->onDelete('cascade');
             $table->timestamps();
         });
 

@@ -4,6 +4,11 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
+use App\Http\Controllers\SongsController;
+use App\Http\Controllers\HomePageController;
+use App\Http\Controllers\PlaylistController;
+use App\Http\Controllers\LikedPlaylistController;
+use App\Http\Controllers\SearchController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,30 +20,36 @@ use Illuminate\Http\Request;
 |
 */
 Auth::routes(['verify' => true]);
-
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/',function(){
+    return view('layouts.Bottom');
 });
+Route::get('/home', [HomePageController::class,'create'])->name('Home');
 
-Route::get('/search', function () {
-    return view('Search');
-});
+Route::get('/search',[SearchController::class,'index'])->name('Search');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth', 'verified','checkRole'])->name('dashboard');
 
 Route::get('/track/{trackid}', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('track');
 
-Route::get('/playlist/{playlistid}', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('playlist');
+Route::get('/playlist/{playlistname}',[PlaylistController::class,'index'])->middleware(['auth', 'verified'])->name('playlist');
+
+Route::post('/DeleteSong',[PlaylistController::class,'delete'])->middleware(['auth', 'verified'])->name('SongDelete');
 
 Route::get('/email/verify', function () {
     return view('auth.verify-email');
 })->middleware('auth')->name('verification.notice');
+
+Route::get('/library', function(){
+    return view('library');
+ })->name('library');
+
+ Route::get('/LikedSongs/{id}',[LikedPlaylistController::class,'index'])->middleware(['auth', 'verified'])->name('likedplaylist');
+ Route::post('/DeleteLikedSong',[LikedPlaylistController::class,'delete'])->middleware(['auth', 'verified'])->name('LikedSongDelete');
+ Route::post('/AddLikedSong',[LikedPlaylistController::class,'create'])->middleware(['auth', 'verified'])->name('createLikedSong');
 
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
@@ -58,12 +69,16 @@ Route::middleware('auth')->group(function () {
 });
 
 
+Route::get('SongDetails/{title}',[SongsController::class,'GetSong'])
+->name('trackinf');
 require __DIR__.'/auth.php';
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('BottomBar',function(){
+    return view('layouts.Bottom');
+})->name('BottomBar');
 
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/SreachS',function(){
+    return view('SearchS');
+});

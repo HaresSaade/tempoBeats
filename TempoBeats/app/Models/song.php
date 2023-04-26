@@ -13,10 +13,21 @@ class song extends Model
         return $this->belongsToMany(Playlist::class,'playlistsongs','song_id','playlist_id');
     }
 
+    public function Likedplaylists()
+    {
+        return $this->belongsToMany(Likedplaylist::class,'likedplaylis_songs','song_id','likedplaylist_id');
+    }
+
 
     public function album()
     {
         return $this->belongsTo(Album::class);
+    }
+
+    public function artist()
+    {
+        return $this->belongsToMany(Artist::class,'song_artists','song_id','artist_id');
+        
     }
 
 }

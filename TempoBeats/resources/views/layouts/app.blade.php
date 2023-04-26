@@ -1,15 +1,31 @@
 <html>
     <head>
     <title> @yield('title', 'Default Title')</title>
+    <style>
+      *{
+    margin: 0;
+    padding: 0;
+ }
+ body{
+    padding: 0;
+    margin: 0;
+ }
+      </style>
     <link href="{{ asset('css/styleHome.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/SearchS.css') }}" rel="stylesheet">
     <link href="{{ asset('css/search.css') }}" rel="stylesheet">
- <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link href="{{ asset('css/playlist.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/liked.css') }}" rel="stylesheet"> 
+    <link href="{{ asset('css/profile.css') }}" rel="stylesheet">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" type="image/x-icon" href="{{asset('images/TBLogo.png')}}">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
         integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        
+    <script src="https://cdn.jsdelivr.net/npm/howler@2.2.3/dist/howler.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 
 
         <meta charset="utf-8">
@@ -17,6 +33,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
     </head>
     <body>
+      <audio id="player" src="{{asset('12.mpeg')}}"></audio>
         <div>
         <div class="main">
         <div class="leftBar">
@@ -39,9 +56,17 @@
                  <div onclick="goBack()" class="backword"> <span  class="material-icons">navigate_before</span> </div>
                  <div onclick="goForward()" class="forward"> <span  class="material-icons">navigate_next</span> </div>
                 </div>
+                <div id="search-section">
                 @yield('search')
+                </div>
                 @if (Route::has('login'))
                 @auth
+                <div class="ac">
+                @if (empty(Auth::user()->Subscription))
+                <a id="ua" href="#" style="color:white;">Upgrade</a>
+                  @else
+                  
+                @endif
                 <div class="Account">
                   <div class="accbtn" onclick="toggleDropdown()">
                     <i class="material-icons">account_circle</i>
@@ -49,22 +74,21 @@
                   </div>
                   <div class="dropdown-content" id="dropdown" style="display: none">
                     <div class="dpc">
-                      <a href="route('profile.edit')">{{ __('Profile') }}</a>
+                      <a href="{{route('profile.edit')}}">{{ __('Profile') }}</a>
                     </div>
                     <hr>
                       <div class="dpc">
-                        <form id="logt"method="POST" action="{{ route('logout') }}">
-                          @csrf
-                          <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                              <div  href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();">
-                                {{ __('Log Out') }}
-                              </div>
-                        </form>
+                      <form id="logt" method="POST" action="{{ route('logout') }}">
+    @csrf
+ 
+    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+    <button type="submit">{{ __('Log Out') }}</button>
+</form>
                         </div>
                       </div>
                         </div>
  
-                  
+                        </div>
 
                 @else
                     <div class="credentials">
@@ -80,85 +104,94 @@
              
             <main>
                 @yield('content')
+                
             </main>
     
-            @auth 
-            <div class="bottombar">
-        <div class="left">
-                 <i class="material-icons">headset</i>
-            <div class="creds">
-                <p class="title">I Wanna Be Yours</p>
-                <p class="artist">Arctic Monkey</p>
+           
             </div>
-            <i id="Heart" class='fas fa-heart'></i>
-        </div>
-        <div class="middle">
-            <div class="buttons">
-                 <i id="shuffle" class="material-icons">shuffle</i>
-                 <i class="material-icons sk">skip_previous</i>
-                <i id="play-pause" class="fas fa-play"></i>
-                <i  class="material-icons sk">skip_next</i>
-                <i id="repeat" class="material-icons">repeat</i>
-            </div>
-            <div class="musicbar">
-                <p class="initial">0:00</p>
-                <hr>
-                <p class="final">3:03</p>
-            </div>
-        </div>
-        <div class="right">
-            <i class="material-icons">menu</i>
-            <i class="fa fa-volume-down"></i>
-            <div class="volumebar">
-                <hr class="level">
-            </div>
-        </div>
-    </div>
-
-            @else
-            <div id="bottom">
-        <div class="bleft">
-        <p class="text1">HERE'S A GLIMPSE OF TEMPOBEATS</p>
-        <p class="text2">Get unlimited song access with occasional ads, no credit card required, by signing up now.</p>
-        </div>
-   
-         @if (Route::has('register'))
-            <div class="BSU sb"><p>Sign Up</p></div>
-        @endif
-
-            @endauth
-            </div>
-
+            
+           
         <script>
-        
+        //  var baseUrl = "{{ asset('') }}";
         const menubtns = document.querySelectorAll(".link");
-console.log(menubtns);
+
 menubtns.forEach((menubtn, index) => {
   menubtn.addEventListener('click', () => {
     if (index === 0) {
-      console.log("sign up btn clicked");
-      window.location.href = "/";
+    /*  $(document).ready($(function () {
+      var url = '/';
+    $.ajax({
+        url: '/',
+        type: 'GET',
+        success: function (result) {
+          var Wlm = $(result).find('.musicmenu');
+           $('#ContentSection').html(Wlm);
+           history.pushState(null, null, url);
+        }
+    });
+}));*/
+var url = 'http://127.0.0.1:8000/'
+      window.location.href = "/home";
+      window.parent.history.pushState(null, null, url);
     } else if (index === 1) {
-      console.log("search btn clicked");
+      console.log("search clicked")
+    
+  /*  $(function () {
+      var url = window.location.href +'search';
+    $.ajax({
+        url: '/search',
+        type: 'GET',
+        success: function (result) {
+          var SearchC = $(result).find('.search');
+          var Genre = $(result).find('.Genre');
+          $('#search-section').html(SearchC);
+           $('#ContentSection').html(Genre);
+           history.pushState(null, null, url);
+        }
+    });
+});
+*/    var url = 'http://127.0.0.1:8000/'+'search';
       window.location.href = "/search";
+      window.parent.history.pushState(null, null, url);
+    } else if(index === 2){
+      var url = 'http://127.0.0.1:8000/'+'library';
+      window.location.href = "{{ route('library')}}";
+      window.parent.history.pushState(null, null, url);
     }
   })
 })
-
+const bottomMenu = document.querySelectorAll(".link2");
+console.log(menubtns);
+bottomMenu.forEach((menu , index)=>{
+  menu.addEventListener('click',()=>{
+    if(index === 0){
+      console.log('create playlist');
+    }
+    else if(index === 1){
+      var url = 'http://127.0.0.1:8000/'+'LikedSongs';
+      window.location.href="{{ route('likedplaylist',['id'=>auth()->check() ? auth()->user()->id : 0])}}";
+      window.parent.history.pushState(null, null, url);
+    }
+  })
+})
 const logbtn = document.querySelector(".LI");
+if(logbtn){
         logbtn.addEventListener("click", ()=>{
-            console.log("Hello, you clicked the login button");
-            window.location.href = "{{ route('login') }}";
+          
+            top.window.location.href = "{{ route('login') }}";
         });
+      }
    
         const subtns = document.querySelectorAll(".sb");
+        if(subtns){
         subtns.forEach((subtn , index)=>{
             subtn.addEventListener('click',()=>{
-                console.log("sign up btn clicked");
-                window.location.href= "{{ route('register')}}";
-            })
-        })
-
+               
+                top.window.location.href= "{{ route('register')}}";
+            });
+        });
+      }
+ 
         function toggleDropdown() {
     var dropdown = document.getElementById("dropdown");
     if (dropdown.style.display === "none") {
@@ -175,10 +208,9 @@ const logbtn = document.querySelector(".LI");
 			window.history.forward();
 		}
   
-  
     </script>
 
-    <script src="{{ asset('js/Playbtn.js') }}"></script>
-    <script src="{{ asset('js/Home.js') }}"></script>
+   
+    <script src="{{ asset('js/Home.js') }}" async></script>
     </body>
 </html>
