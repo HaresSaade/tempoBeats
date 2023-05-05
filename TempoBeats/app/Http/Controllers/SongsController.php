@@ -19,4 +19,13 @@ class SongsController extends Controller
             return response()->json(["error"=>"Song not found"]);
         }
     }
+    public function lyrcis($songid){
+        $song = song::find($songid);
+        return view('lyrcis')->with('song',$song);
+    }
+
+    public function Allsongs(){
+        $allsongs = song::all();
+        return view('Allsongs')->with('Allsongs',$allsongs);
+    }
 }

@@ -22,7 +22,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 <body>
-<iframe src="{{Route('Home')}}"></iframe>
+<iframe name="myiframe" src="{{Route('Home')}}"></iframe>
 @auth 
 <div class="bottombar">
         <div class="left">
@@ -52,7 +52,7 @@
             </div>
         </div>
         <div class="right">
-            <i class="material-icons">menu</i>
+            <a href="{{Route('lyrics',['id'=>1])}}" target="myiframe"><i class="material-icons mic">mic</i></a>
             <i id="speaker" class="fa fa-volume-up"></i>
             
             <input type="range" id="sound-slider" class="range2" min="0" max="100" value="100" step="1">
@@ -75,6 +75,7 @@
     <script src="{{ asset('js/Home.js') }}" async></script>
 </body>
 <script>
+
        const HeartButton = document.getElementById('Heart');
 let HeartMode = 'off';
 HeartButton.addEventListener('click', function() {
@@ -90,7 +91,7 @@ HeartButton.addEventListener('click', function() {
       success: (data) => {
         console.log(data);
         this.classList.add('onh');
-    HeartMode = 'on';
+        HeartMode = 'on';
       },
       error: (xhr, status, error) => {
         console.error(error);
@@ -119,6 +120,8 @@ HeartButton.addEventListener('click', function() {
     
   }
 });
+
+
 
 
 

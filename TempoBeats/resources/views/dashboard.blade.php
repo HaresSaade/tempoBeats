@@ -1,14 +1,15 @@
 <!doctype html>
 <html lang="en" data-bs-theme="auto">
   <head><script src="{{asset('assets/js/color-modes.js')}}"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-
+  <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.111.3">
-    <title>Dashboard Template · Bootstrap v5.3</title>
+    <title>Dashboard</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/dashboard/">
 
@@ -19,6 +20,9 @@
 <link href="{{asset('assets/dist/css/bootstrap.min.css')}}" rel="stylesheet">
 
     <style>
+      body{
+        font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif ;
+      }
       .bd-placeholder-img {
         font-size: 1.125rem;
         text-anchor: middle;
@@ -90,6 +94,114 @@
       .bd-mode-toggle {
         z-index: 1500;
       }
+
+      .searchContent{
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif ;
+    background-color: #1d1b1b;
+    min-height:92.1vh;
+     max-height: 92.1vh;
+  }
+
+img{
+  width:75px;
+  height:65px
+}
+td {
+  text-align: left;
+  padding: 8px;
+  color:white;
+  padding:17px;
+  width:15px;
+}
+tr:nth-child(even) {
+  background-color: rgba(0,0,0,0.5);
+}
+.plyt{
+  color:white;
+}
+button{
+  background:none;
+  outline:none;
+  border:none;
+}
+.songs,.allplaylist,.users{
+ margin-top:25px;
+
+}
+.songs,.users,.allplaylist,.AddSong,.AddPlaylist{
+  display:none;
+}
+.AddSong form,.AddPlaylist form{
+  width:75%;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+ 
+}
+.songin,.playin{
+  margin-top:11%;
+  margin-left:10%;
+}
+.AddSong input,.AddPlaylist input{
+  margin:12px 0;
+  background:none;
+  outline:none;
+  border:none;
+}
+.AddSong input[type="text"],.AddPlaylist input[type="text"]{
+  height:20px;
+  color:white;
+  padding:15px;
+  box-shadow:-2px 5px 7px #131313;
+  border-radius:7px;
+}
+.AddSong textarea{
+  margin:12px 0;
+  background:none;
+  outline:none;
+  border:none;
+  color:white;
+  box-shadow:-2px 5px 7px #131313;
+  border-radius:7px;
+  padding:15px;
+}
+.form-control:focus{
+  background:none;
+  border-color:none;
+  box-shadow:none;
+}
+form button{
+  color:white;
+  width:150px;
+  height: 35px;
+  margin-top:10px;
+  margin-left:40%;
+  border-radius:11px;
+  background:rgb(214, 175, 44);
+}
+.tid{
+  width:0px;
+}
+table{
+  width:104%;
+  margin-left:-25px;
+  border-collapse: collapse;
+  margin-top:35px;
+}
+.nav-item{
+  padding:15px;
+}
+
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
     </style>
 
     
@@ -121,40 +233,40 @@
       <div class="position-sticky pt-3 sidebar-sticky">
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">
+            <button class="nav-link active" aria-current="page" >
               <span data-feather="home" class="align-text-bottom"></span>
               Dashboard
-            </a>
+            </button>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <button class="nav-link" >
               <span data-feather="music" class="align-text-bottom"></span>
               Songs
-            </a>
+            </abutton>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <button class="nav-link">
               <span data-feather="list" class="align-text-bottom"></span>
               Playlist
-            </a>
+            </button>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <button class="nav-link">
               <span data-feather="users" class="align-text-bottom"></span>
               Users
-            </a>
+            </button>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <button class="nav-link" >
               <span data-feather="plus" class="align-text-bottom"></span>
               Add Song
-            </a>
+            </button>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <button class="nav-link" >
               <span data-feather="plus" class="align-text-bottom"></span>
               Add Playlist
-            </a>
+            </button>
           </li>
         </ul>
 
@@ -162,12 +274,13 @@
     </nav>
 
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+  <div class="dashboard">
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Dashboard</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
           <div class="btn-group me-2">
             <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-            <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+            <button id="export-button" type="button" class="btn btn-sm btn-outline-secondary">Export</button>
           </div>
           <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
             <span data-feather="calendar" class="align-text-bottom"></span>
@@ -183,7 +296,138 @@
     </div>
       <div id="pc"style="width:500px">
       <div ><h1>Website Traffic Sources:</h1></div><canvas id="website-traffic-chart" ></canvas></div>
+    </div>
 
+    <div class="songs">
+      <h2>All Songs:</h2>
+    <table>
+    <thead>
+      <tr>
+           <td class="tid">Id</td>    
+            <td>image src</td>
+            <td>Name</td>
+            <td>Artist</td>
+            <td>Duration</td>
+            <td></td>
+           
+      </tr>
+    </thead>
+        <tbody>
+        @foreach($Allsongs as $obj)
+          <tr>
+          <td class="tid">{{$obj->id}}</td>
+            <td><img src="{{asset($obj->imgsrc)}}" /></td>    
+            <td>{{$obj->Name}}</td>
+            <td>
+            @foreach($obj->artist as $artist)
+            {{$artist->name}}
+            @if(!$loop->last)
+          , 
+        @endif
+                @endforeach
+                </td>
+            <td>{{ gmdate("i:s", $obj->Duration) }}</td>
+            <td class="t"><a href="{{Route('deletesong',['id'=>$obj->id])}}"> <span data-feather="trash" class="align-text-bottom" style="color:red;"></span></a></td>
+          </tr>
+ @endforeach
+    </tbody>
+</table>
+</div>
+<div class="allplaylist">
+<h2>TempoBeat's playlists:</h2>
+  <table>
+  <thead>
+      <tr>
+           <td class="tid">Id</td>    
+            <td>image src</td>
+            <td>Name</td>
+            <td>Songs</td>
+           
+      </tr>
+    </thead>
+    <tbody>
+@foreach($allpl as $obj)
+          <tr>
+          <td class="tid">{{$obj->id}}</td>
+            <td><img src="{{asset($obj->imgsrc)}}" /></td>    
+            <td>{{$obj->Name}}</td>
+            <td>{{$obj->songs->count()}}</td>
+            <td class="t"><a href="{{Route('deleteplaylist',['id'=>$obj->id])}}"> <span data-feather="trash" class="align-text-bottom" style="color:red;"></span></a></td>
+          </tr>
+ @endforeach
+</tbody>
+</table>
+</div>
+<div class="users">
+<h2>All Users:</h2>
+  <table>
+    <thead>
+      <tr>
+           <td class="tid">Id</td>    
+            <td>Name</td>
+            <td>Email</td>
+            <td>Age</td>
+            <td>Gender</td>
+            <td>Role</td>
+      </tr>
+    </thead>
+    <tbody>
+@foreach($users as $obj)
+          <tr>
+          <td class="tid">{{$obj->id}}</td>    
+            <td>{{$obj->name}}</td>
+            <td>{{$obj->email}}</td>
+            <td>{{$obj->Age}}</td>
+            <td>{{$obj->Gender}}</td>
+            <td>@foreach($obj->getRole as $role)
+              {{$role->name}}  
+            @endforeach
+            </td>
+          </tr>
+ @endforeach
+</tbody>
+</table>
+</div>
+<div class="AddSong">
+<div class="songin">
+<form method="post" action="{{Route('addSong')}}" enctype="multipart/form-data">
+
+    @csrf
+        <label for="name">Song Name</label>
+        <input type="text" name="name" placeholder="Song Name.."/>
+        <label for="name">Lyrics</label>
+        <textarea name="lyrics"></textarea>
+        <label for="name">Duration</label>
+        <input type="text" name="Duration" placeholder="Duration"/>  
+        <label for="Artist">Artist Name</label>
+        <input type="text" name="Artist" placeholder="Artist"/> 
+        <label>Image</label>
+        <div class="input-group">
+  <input type="file" class="form-control" name="imgsrc" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04"style="color:white;box-shadow:-2px 5px 7px #131313;"/>
+</div>
+        <button type="submit">Add Song</button>
+    </form>
+  </div>
+</div>
+
+<div class="AddPlaylist">
+  <div class="playin">
+    <form id="playlist-form" method="post" action="{{Route('addplaylist')}}" enctype="multipart/form-data">
+    @csrf
+        <label for="name">Playlist Name</label>
+        <input type="text" name="Name" placeholder="Playlist Name.."/>
+        <label for="name">BackGround Color</label>
+        <input type="text" name="bgc" placeholder="backgorund color"/>  
+        <label for="name">Description</label>
+        <input type="text" name="des" placeholder="Description"/> 
+        <label>Image</label>
+        <div class="input-group">
+  <input type="file" class="form-control" name="imgsrc" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04"style="color:white;box-shadow:-2px 5px 7px #131313;"/>
+</div>
+        <button type="submit">Add Playlist</button>
+    </form>
+  </div>
+</div>
     </main>
   </div>
 </div>
@@ -260,7 +504,139 @@ var ctxp = document.getElementById('website-traffic-chart').getContext('2d');
     }
   });
   Chart.defaults.color = '#fff';
+  const allbtns = document.querySelectorAll('.nav-link');
+  const s = document.querySelector('.songs');
+  const dh = document.querySelector('.dashboard');
+  const al = document.querySelector(".allplaylist");
+  const u = document.querySelector(".users");
+  const as = document.querySelector(".AddSong");
+  const PL = document.querySelector(".AddPlaylist");
+  const il = localStorage.getItem('i');
+  const i = JSON.parse(il);
+  allbtns.forEach((ele,index)=>{
+      ele.classList.remove("active")
+      if(index== i){
+        ele.classList.add("active")
+      }
+    })
+  if(i == 0){
+          
+          dh.style.display = "block";
+          s.style.display = "none";
+          al.style.display = "none";
+          u.style.display = "none";
+          as.style.display = "none";
+          PL.style.display = "none";
+         
+      } else if(i == 1){
+       
+        dh.style.display = "none";
+        s.style.display = "block";
+        al.style.display = "none";
+        u.style.display = "none";
+        as.style.display = "none";
+        PL.style.display = "none";
+      }else if(i == 2){
+       
+        dh.style.display = "none";
+        s.style.display = "none";
+        al.style.display = "block";
+        u.style.display = "none";
+        as.style.display = "none";
+        PL.style.display = "none";
+      }
+      else if(i == 3){
+       
+        dh.style.display = "none";
+        s.style.display = "none";
+        al.style.display = "none";
+        u.style.display = "block";
+        as.style.display = "none";
+        PL.style.display = "none";
+      }
+      else if(i == 4){
+       
+        dh.style.display = "none";
+        s.style.display = "none";
+        al.style.display = "none";
+        u.style.display = "none";
+        as.style.display = "block";
+        PL.style.display = "none";
+      }
+      else if(i == 5){
+        dh.style.display = "none";
+        s.style.display = "none";
+        al.style.display = "none";
+        u.style.display = "none";
+        as.style.display = "none";
+        PL.style.display = "block";
+      }
+
+  allbtns.forEach((btn,index)=>{
+   btn.addEventListener('click',()=>{
+    allbtns.forEach(ele=>{
+      ele.classList.remove("active")
+    })
+      btn.classList.add("active");
+      if(index == 0){
+        localStorage.setItem('i', index);
+          dh.style.display = "block";
+          s.style.display = "none";
+          al.style.display = "none";
+          u.style.display = "none";
+          as.style.display = "none";
+          PL.style.display = "none";
+         
+      } else if(index == 1){
+        localStorage.setItem('i', index);
+        dh.style.display = "none";
+        s.style.display = "block";
+        al.style.display = "none";
+        u.style.display = "none";
+        as.style.display = "none";
+        PL.style.display = "none";
+      }else if(index == 2){
+        localStorage.setItem('i', index);
+        dh.style.display = "none";
+        s.style.display = "none";
+        al.style.display = "block";
+        u.style.display = "none";
+        as.style.display = "none";
+        PL.style.display = "none";
+      }
+      else if(index == 3){
+        localStorage.setItem('i', index);
+        dh.style.display = "none";
+        s.style.display = "none";
+        al.style.display = "none";
+        u.style.display = "block";
+        as.style.display = "none";
+        PL.style.display = "none";
+      }
+      else if(index == 4){
+        localStorage.setItem('i', index);
+        dh.style.display = "none";
+        s.style.display = "none";
+        al.style.display = "none";
+        u.style.display = "none";
+        as.style.display = "block";
+        PL.style.display = "none";
+      }
+      else if(index == 5){
+        localStorage.setItem('i', index);
+        dh.style.display = "none";
+        s.style.display = "none";
+        al.style.display = "none";
+        u.style.display = "none";
+        as.style.display = "none";
+        PL.style.display = "block";
+      }
+   })
+  })
+
 </script>
+
+
 
     <script src="{{asset('assets/dist/js/bootstrap.bundle.min.js')}}"></script>
 

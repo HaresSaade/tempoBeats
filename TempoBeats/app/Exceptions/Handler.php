@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Foundation\Exceptions\NoInternetConnectionException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
@@ -44,5 +45,16 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+       
+        
     }
+
+    public function render($request, Throwable $exception)
+{
+    if ($exception instanceof NoInternetConnectionException) {
+        return response()->view('errors.no-internet', [], 500);
+    }
+
+    return parent::render($request, $exception);
+}
 }

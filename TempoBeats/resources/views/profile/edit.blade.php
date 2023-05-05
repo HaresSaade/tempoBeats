@@ -31,6 +31,14 @@
     #resend-btn{
         width:65px;
     }
+    input{
+        outline:none;
+        padding:5px;
+        border-radius:7px;
+    }
+    input:focus{
+        border:3px solid rgb(214, 175, 44);
+    }
     </style>
   <div class="profilemain">
             

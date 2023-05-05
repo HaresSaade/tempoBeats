@@ -7,12 +7,14 @@ use App\Models\User;
 use App\Models\likedPlaylist;
 use App\Models\song;
 use App\Models\likedplaylis_songs;
+use Illuminate\Support\Facades\Auth;
 class LikedPlaylistController extends Controller
 {
     //
     public function index($id){
         $likedP = likedPlaylist::where('user_id',$id)->first();
-         return view('LikedPlaylist')->with("likedSongs",$likedP);
+        $pvoit = likedplaylis_songs::where('user_id' , $id);
+         return view('LikedPlaylist')->with(["likedSongs"=>$likedP,"pvoit"=> $pvoit]);
     }
 
     public function create(Request $request){

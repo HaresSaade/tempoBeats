@@ -63,7 +63,7 @@
                 @auth
                 <div class="ac">
                 @if (empty(Auth::user()->Subscription))
-                <a id="ua" href="#" style="color:white;">Upgrade</a>
+                <div id="ua" style="color:white;">Upgrade</div>
                   @else
                   
                 @endif
@@ -78,12 +78,9 @@
                     </div>
                     <hr>
                       <div class="dpc">
-                      <form id="logt" method="POST" action="{{ route('logout') }}">
-    @csrf
- 
-    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                      <a id="logt" href="{{ route('logout') }}">
     <button type="submit">{{ __('Log Out') }}</button>
-</form>
+</a>
                         </div>
                       </div>
                         </div>
@@ -207,7 +204,11 @@ if(logbtn){
 		function goForward() {
 			window.history.forward();
 		}
-  
+    const ua = document.querySelector('#ua');
+    console.log(ua);
+    ua.addEventListener('click',()=>{
+      top.window.location.href = "{{ Route('Upgrade') }}";
+    })
     </script>
 
    

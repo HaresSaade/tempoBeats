@@ -9,6 +9,7 @@ use App\Http\Controllers\HomePageController;
 use App\Http\Controllers\PlaylistController;
 use App\Http\Controllers\LikedPlaylistController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\dashboardController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -23,13 +24,14 @@ Auth::routes(['verify' => true]);
 Route::get('/',function(){
     return view('layouts.Bottom');
 });
-Route::get('/home', [HomePageController::class,'create'])->name('Home');
+Route::get('/Upgrade',function(){
+    return view('Pricing');
+})->middleware(['auth','verified'])->name('Upgrade');
+Route::get('/home', [HomePageController::class,'create'])->middleware('checkinternet')->name('Home');
 
 Route::get('/search',[SearchController::class,'index'])->name('Search');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified','checkRole'])->name('dashboard');
+Route::get('/dashboard',[dashboardController::class,'index'])->middleware(['auth', 'verified','checkRole'])->name('dashboard');
 
 Route::get('/track/{trackid}', function () {
     return view('dashboard');
@@ -79,6 +81,14 @@ Route::get('BottomBar',function(){
     return view('layouts.Bottom');
 })->name('BottomBar');
 
-Route::get('/SreachS',function(){
-    return view('SearchS');
-});
+Route::get('/searchs',[SearchController::class,'Ssongs'])->middleware(['auth','verified'])->name('searchSong');
+
+Route::post('/addSong',[dashboardController::class,'store'])->middleware(['auth', 'verified','checkRole'])->name('addSong');
+Route::post('/addplaylist',[dashboardController::class,'playlist'])->middleware(['auth', 'verified','checkRole'])->name('addplaylist');
+Route::post('/export', [dashboardController::class, 'exportToExcel'])->middleware(['auth', 'verified','checkRole']);
+Route::get('/lyrcis/{id}',[SongsController::class,'lyrcis'])->middleware(['auth','verified'])->name('lyrics');
+Route::get('/delete/{id}',[dashboardController::class,'delete'])->middleware(['auth','verified'])->name('deletesong');
+Route::get('/deletep/{id}',[dashboardController::class,'deletep'])->middleware(['auth','verified'])->name('deleteplaylist');
+Route::get('/Allsongs',[SongsController::class,'Allsongs'])->middleware(['auth','verified'])->name('Allsongs');
+
+

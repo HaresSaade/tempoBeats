@@ -9,6 +9,7 @@ use App\Models\song;
 use App\Models\artist;
 use Illuminate\Support\Facades\Cookie;
 use App\Models\likedPlaylist;
+use App\Models\playlist;
 
 class HomePageController extends Controller
 {
@@ -30,13 +31,15 @@ class HomePageController extends Controller
         $userId = auth()->check() ? auth()->id() : null;
         $likedSongsString = null;
         if ($userId) {
+            
             $ply = likedPlaylist::where('user_id', $userId)->first();
-            $Nsongs = $ply->songs;
-            $songnames = $Nsongs->pluck('Name')->toArray();
-            $likedSongsString = implode(',', $songnames);
+             $Nsongs = $ply->songs;
+                $songnames = $Nsongs->pluck('Name')->toArray();
+             $likedSongsString = implode(',', $songnames);
+          
         }
-    
-        $response = view('welcome', ['songs'=>$songs]);
+        $allply = playlist::all();
+        $response = view('welcome', ['songs'=>$songs,'playlists'=>$allply]);
         if ($likedSongsString) {
             Cookie::queue('liked_songs', $likedSongsString, 60*24*7, null, null, false, false);
         }

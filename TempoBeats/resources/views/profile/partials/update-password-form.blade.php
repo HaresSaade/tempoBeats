@@ -46,6 +46,16 @@
                    
                 >{{ __('Saved.') }}</p>
             @endif
+
+            @if ($errors->any())
+        <div class="alert alert-dark">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li style="color:red;">{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
         </div>
     </form>
 </div>

@@ -7,7 +7,9 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
-
+use App\Mail\resetPassword;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Auth;
 class PasswordController extends Controller
 {
     /**
@@ -19,11 +21,16 @@ class PasswordController extends Controller
             'current_password' => ['required', 'current_password'],
             'password' => ['required', Password::defaults(), 'confirmed'],
         ]);
-
+        $user = Auth::user();
+        if($validated['password'] == $validated['current_password']){
+            return back()->withErrors( 'You cant use the same password as your old one!');
+        }else{
         $request->user()->update([
             'password' => Hash::make($validated['password']),
         ]);
-
-        return back()->with('status', 'password-updated');
+       
+    }
+    Mail::to($user->email)->send(new resetPassword());
+    return back()->with('status', 'password-updated');
     }
 }

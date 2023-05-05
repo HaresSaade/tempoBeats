@@ -1,7 +1,7 @@
 .playlistcontent{
     overflow-y: scroll;
-    min-height: 82vh;
-    max-height: 82vh;
+    min-height: 92.1vh;
+    max-height: 92.1vh;
     background-color: #1d1b1b;
 }
 .playlistcontent .topContent{

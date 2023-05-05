@@ -11,17 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('songs', function (Blueprint $table) {
+        Schema::create('likedsongs', function (Blueprint $table) {
             $table->id();
-            $table->string("Name");
-            $table->longText("lyrics");
-            $table->float("Duration");
-            $table->string("imgsrc");
-            $table->unsignedBigInteger('album_id')->nullable();
-            $table->foreign('album_id')->references('id')->on('albums')->onDelete('cascade');
+            $table->unsignedBigInteger('song_id');
+            $table->foreign('song_id')->references('id')->on('songs')->onDelete('cascade');
             $table->timestamps();
         });
-
     }
 
     /**
@@ -29,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('songs');
+        Schema::dropIfExists('likedsongs');
     }
 };

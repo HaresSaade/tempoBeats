@@ -1,82 +1,123 @@
+
 <!DOCTYPE html>
-<html lang="eng">
+<html>
+<head>
+<meta name="csrf-token" content="{{ csrf_token() }}">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+        integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <title>Email verification</title>
+    <style>
+        *{
+            font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif ;
+        }
+        body{
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+            align-items:center;
+            background-color:#1d1b1b;
+            
+        }
+
+        .container{
+            margin-top:250px;
+            display:flex;
+            background-color:#131313;
+            flex-direction:column;
+            justify-content:center;
+            align-items:center;
+            width:500px;
+            height:250px;
+            padding:15px;
+            border-radius:15px;
+            box-shadow: -2px 5px 8px #121212;
+        }
+        .container p{
+            color:white;
+        }
+        .logo{
+        width: 50%;
+        margin:10px 0;
+    }
+        
+        .msg{
+            text-align:center;
+        }
+        .msg p{
+            color:white;
+
+        }
+        .msg2con {
+            display:flex;
+            flex-direction:row;
+            justify-content:baseline;
+            align-items:center;
+        }
+        .msg2con button{
+            color:white;
+            margin-left:5px;
+            width:75px;
+            height:30px;
+            padding:0px;
+            background:rgb(214, 175, 44);
+            outline:none;
+            border:none;
+            border-radius:7px;
+
+        }
+        .input{
+            outline:none;
+            width:250px;
+            border-radius:7px;
+            padding:5px;
+            height:20px;
+            font-size:16px;
+            margin:0 5px;
+        }
+        label{
+            color:white;
+        }
+        </style>
+</head>
+<body>
+<div class="container">
+
+    
+<div class="msg">
+<img class="logo" src="{{ asset('images/temp.png') }}" />
+        <p>Forgot Your Password?</p>
+        <p> Please, Enter your email below and we will send you a link to reset your password!</p>
+            
+    </div>
+    @if (session('status') == 'verification-link-sent')
+        <div class="mb-4 font-medium text-sm text-green-600">
+            {{ __('A new verification link has been sent to the email address you provided during registration.') }}
+        </div>
+    @endif
+
+ <!-- Session Status -->
+ <x-auth-session-status class="mb-4" :status="session('status')" />
+
+<form method="POST" action="{{ route('password.email') }}">
+    @csrf
+
+    <!-- Email Address -->
+     <div class="msg2con">
+            
+        <x-input-label for="email" :value="__('Email')" />
+        <x-text-input id="email" class="input" type="email" name="email" :value="old('email')" required autofocus />
+        <x-input-error :messages="$errors->get('email')" class="mt-2" />
     
 
-<Head>
-    <meta charset="utf-8">
-    <title>Forget Password</title>
-    <link rel="icon" type="image/x-icon" href="{{asset('images/TBLogo.png')}}">
-    <link rel="stylesheet" href="{{ asset('css/style_login.css') }}">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-</Head>
-
-<body>
-        <div class="logo-top">
-            <img src="{{asset('images/Group 9.png')}}" width="250px">
-        </div> 
-        <div class="container">
-            <p class="para">To continue, log in to TempoBeats.</p>
-            <div class="Continue">
-                <button class="loginbtn facebook-login">
-                    <i class="fab fa-facebook logo"></i>
-                    <p>CONTINUE WITH FACEBOOK</p>
+   
+    <button type="submit">
+                    {{ __('Send Link') }}
                 </button>
-                <button class="loginbtn Apple-login ">
-                    <i class="fab fa-apple logo"></i>
-                    <p>CONTINUE WITH APPLE</p>
-                </button>
-                <button class="loginbtn Google-login">
-                    <i class="fab fa-google logo"></i>
-                    <p>CONTINUE WITH GOOGLE</p>
-                </button>
-            </div>
-            <div class="breakline">
-                <div class="line"></div>
-                <p class="or">OR</p>
-                <div class="line"></div>
-            </div>
-            <x-auth-session-status class="mb-4" :status="session('status')" />
-            <form method="POST" action="{{ route('login') }}" class="email-login">
-            @csrf
-                <label for="email">Email address or username</label>
-                <input  id="email" class="email" type="email" name="email" placeholder="Email" require/>
-                <label for="pass">Password</label>
-                <input id="password" class="pass" type="password" name="password" placeholder="Password" require/>
-                
-                @if ($errors->has('email'))
-                 <span class="Error-msg" role="alert">
-                           <strong>{{ $errors->first('email') }}</strong>
-                 </span>
-                @endif
-                @if ($errors->has('password'))
-                 <span class="Error-msg" role="alert">
-                           <strong>{{ $errors->first('password') }}</strong>
-                 </span>
-                @endif
-               
-                @if (Route::has('password.request'))
-                <a href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
-                </a>
-            @endif
-                <div class="rmb"> 
-                    <input type="checkbox" value="Remember me"/>
-                    <label for="">Remember me</label>
                 </div>
-                <input type="submit" class="btn" value="LOG IN"/>
-            </form>
-            <hr>
-            <div class="signup">
-                <p>Don't have account?</p>
-                <button><p>SIGN UP FROM TEMPOBEATS</p></button>
-            </div>
-        </div>   
-    <script async>
-        const subtn = document.querySelector(".signup");
-        subtn.addEventListener('click',()=>{
-                console.log("sign up btn clicked");
-                window.location.href= "{{ route('register')}}";
-            })
-    </script>
+</form>
+ 
+       
+   
+    </div>
 </body>
 </html>

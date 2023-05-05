@@ -5,8 +5,8 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Illuminate\Support\Facades\Auth;
-class checkRole
+use Illuminate\Foundation\Exceptions\NoInternetConnectionException;
+class NoInternetConnectionMiddleware
 {
     /**
      * Handle an incoming request.
@@ -15,13 +15,10 @@ class checkRole
      */
     public function handle(Request $request, Closure $next): Response
     {
-        
-            if(Auth::user()->hasRole('admin')){
-                return $next($request);
-            }
-            else{
-                abort(403);
-            }
-        
+        try {
+            return $next($request);
+        } catch (NoInternetConnectionException $e) {
+            return response()->view('errors.no-internet', [], 500);
+        }
     }
 }

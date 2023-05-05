@@ -4,7 +4,10 @@
 @section('search')
 <div class="search">
 <i class="fas fa-search"></i>
-<input type="search" placeholder="Search for a song" class="searcher"></input>
+<form method="get" action="{{Route('searchSong')}}">
+  @csrf
+<input type="search" name="search" placeholder="Search for a song" class="searcher"></input>
+</form>
 </div>
 
 @endsection

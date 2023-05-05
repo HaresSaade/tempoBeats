@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use App\Models\likedPlaylist;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -113,6 +115,10 @@ class RegisterController extends Controller
         if (config('auth.registration.require_verification')) {
             $user->sendEmailVerificationNotification();
         }
+        
+        $obj = new likedPlaylist();
+        $obj->user_id = $user->id;
+        $obj->save();
         return $user;
     }
 }
