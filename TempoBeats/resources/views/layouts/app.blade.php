@@ -23,9 +23,7 @@
         integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/howler@2.2.3/dist/howler.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 
 
         <meta charset="utf-8">
@@ -33,7 +31,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
     </head>
     <body>
-      <audio id="player" src="{{asset('12.mpeg')}}"></audio>
+
         <div>
         <div class="main">
         <div class="leftBar">
@@ -212,6 +210,6 @@ if(logbtn){
     </script>
 
    
-    <script src="{{ asset('js/Home.js') }}" async></script>
+    <script type="module" src="{{ asset('js/Home.js') }}" async></script>
     </body>
 </html>

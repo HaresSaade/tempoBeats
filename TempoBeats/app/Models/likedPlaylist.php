@@ -15,6 +15,6 @@ class likedPlaylist extends Model
 
     public function songs()
     {
-        return $this->belongsToMany(Song::class,'likedplaylis_songs','likedplaylist_id','song_id');
+        return $this->belongsToMany(Song::class,'likedplaylis_songs','likedplaylist_id','song_id')->withPivot('created_at');
     }
 }

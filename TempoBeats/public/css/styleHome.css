@@ -246,6 +246,11 @@ cursor: pointer;
     padding: 10px;
     cursor: pointer;
   }
+  .album img{
+    width: 180px;
+    height: 180px;
+    border-radius: 15px;
+  }
   .musicmenu .album img{
     width: 180px;
     border-radius: 15px;

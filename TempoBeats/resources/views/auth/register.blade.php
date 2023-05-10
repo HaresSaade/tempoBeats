@@ -94,11 +94,11 @@
 
                 </div>
                 <div class="signupa">
-                    <p class="p1">By clicking on sign-up, you agree to TempoBeats'S <a href="#">Terms and Conditions of
+                    <p class="p1">By clicking on sign-up, you agree to TempoBeats'S <a href="{{Route('downloadTerms')}}">Terms and Conditions of
                             Use.</a></p>
 
                     <p class="2">To learn more about how Spotify collects, uses, shares and protects your personal data,
-                        please see <a href="#" class="2">TempoBeats's Privacy Policy</a></p>
+                        please see <a href="{{Route('downloadPrivacy')}}" class="2">TempoBeats's Privacy Policy</a></p>
 
                 </div>
                 <input type="submit" class="btn" value="Sign Up" />

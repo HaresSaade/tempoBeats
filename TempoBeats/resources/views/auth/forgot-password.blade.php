@@ -77,6 +77,10 @@
         label{
             color:white;
         }
+        .msgS{
+            margin:5px 0;
+            color:#22d710;
+        }
         </style>
 </head>
 <body>
@@ -90,13 +94,13 @@
             
     </div>
     @if (session('status') == 'verification-link-sent')
-        <div class="mb-4 font-medium text-sm text-green-600">
+        <div class="mb-4 font-medium text-sm text-green-600 msgS">
             {{ __('A new verification link has been sent to the email address you provided during registration.') }}
         </div>
     @endif
 
  <!-- Session Status -->
- <x-auth-session-status class="mb-4" :status="session('status')" />
+ <x-auth-session-status class="mb-4 msgS" :status="session('status')" />
 
 <form method="POST" action="{{ route('password.email') }}">
     @csrf
@@ -106,7 +110,7 @@
             
         <x-input-label for="email" :value="__('Email')" />
         <x-text-input id="email" class="input" type="email" name="email" :value="old('email')" required autofocus />
-        <x-input-error :messages="$errors->get('email')" class="mt-2" />
+        <x-input-error :messages="$errors->get('email')" class="mt-2" style="color:red;margin:5px 0;"/>
     
 
    

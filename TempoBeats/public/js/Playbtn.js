@@ -1,14 +1,394 @@
-const audio = new Audio('/12.mpeg');
+let likedSongsCookie ;
+setInterval(() => {
+  likedSongsCookie= decodeURIComponent(document.cookie)
+  .split('; ')
+  .find(cookie => cookie.startsWith('liked_songs='))
+  ?.split('=')[1];
+}, 2000);
+
+var iframe = document.getElementById('my-iframe');
+let plybtns;
+const songTb = document.querySelector("#sT");
+const songAb = document.querySelector(".artist");
+const Cred = document.querySelector(".picA");
+let song ;
+const hicon = document.querySelector('#Heart');
+//let audio = new Audio();
+audio.controls = true;
+audio.type = 'audio/mpeg';
+audio.preload = 'auto';
+iframe.addEventListener('load', function() {
+  var iframeDocument = iframe.contentWindow.document;
+  plybtns = iframeDocument.querySelectorAll(".playbtn");
+  plybtns.forEach(ele=>{
+      ele.addEventListener("click",async ()=>{
+          const pele = ele.parentElement;
+       
+          event.stopPropagation();
+          songAb.textContent = pele.querySelector(".author").textContent;
+          songTb.textContent = pele.querySelector(".musictitle").textContent;
+          const newImage = document.createElement('img');
+          newImage.src = pele.querySelector('img').getAttribute('src');
+          newImage.style.width = '50px';
+          newImage.style.height ='55px';
+         if(  Cred.querySelector('img')){
+          Cred.removeChild(Cred.querySelector('img')); 
+          Cred.appendChild(newImage);
+         }else{
+         Cred.appendChild(newImage);
+         } 
+         let HeartMode;
+        if(likedSongsCookie !=null){
+         
+          if (likedSongsCookie.includes(songTb.textContent)) {
+               HeartMode = true;
+              
+               hicon.classList.add('onh');
+          }else {
+              HeartMode = false;
+              hicon.classList.remove('onh');
+          }
+      }
+         const url = '/SongDetails/'+ pele.querySelector(".musictitle").textContent.toString().toLocaleLowerCase();
+       
+  
+         
+           try {
+             const response = await fetch(url, {
+               method: "get",
+               headers: {
+                 "Content-Type": "application/json",
+               },
+             });
+             const data = await response.json();
+              song = data;
+              audio.src = data.mp3;
+              
+  
+          progressLoop();
+             updatePlayBar();
+           } catch(error) {
+             console.log(error);
+           }
+         
+          })
+          
+  });
+  const time = window.parent.document.querySelector(".final");
+ 
+  const updatePlayBar =  ()=>{
+      const totalMinutes = Math.floor(song['Duration'] / 60) + ":" + (song['Duration'] % 60).toString().padStart(2, "0");
+      time.textContent = totalMinutes;
+  }
+
+ 
+  const albtn = iframeDocument.querySelectorAll(".plybtt");
+
+  if(albtn){
+  albtn.forEach(ele=>{
+    ele.addEventListener("click",async ()=>{
+        const pele = ele.parentElement.parentElement;
+       
+        event.stopPropagation();
+        songAb.textContent = pele.querySelector(".art").textContent;
+        songTb.textContent = await pele.querySelector(".musict").textContent;
+        const newImage = document.createElement('img');
+        newImage.src = await pele.querySelector('img').getAttribute('src');
+        newImage.style.width = '50px';
+        newImage.style.height ='55px';
+       if(  Cred.querySelector('img')){
+        Cred.removeChild(Cred.querySelector('img')); 
+        Cred.appendChild(newImage);
+       }else{
+       Cred.appendChild(newImage);
+       } 
+       let HeartMode;
+      if(likedSongsCookie !=null){
+       
+        if (likedSongsCookie.includes(songTb.textContent)) {
+             HeartMode = true;
+            
+             hicon.classList.add('onh');
+        }else {
+            HeartMode = false;
+            hicon.classList.remove('onh');
+        }
+    }
+       const url = '/SongDetails/'+ pele.querySelector(".musict").textContent.toString().toLocaleLowerCase();
+     
+
+       
+         try {
+           const response = await fetch(url, {
+             method: "get",
+             headers: {
+               "Content-Type": "application/json",
+             },
+           });
+           const data = await response.json();
+            song = data;
+            audio.src = data.mp3;
+            
+
+          
+           updatePlayBar();
+         } catch(error) {
+          
+         }
+       
+        })
+        
+});
+  }
+  const alht = iframeDocument.querySelectorAll('.hal');
+ 
+
+  if(alht){  
+    alht.forEach(ele => {
+      if(likedSongsCookie !=null){
+        if (likedSongsCookie.includes(ele.parentElement.parentElement.querySelector(".musict").textContent)) {
+      
+             ele.classList.add('onh');
+        }else {
+          ele.classList.remove('onh');
+        }
+    }
+          ele.addEventListener('click', function() {
+           
+            if (!this.classList.contains('onh')) {
+              $.ajax({
+                url: '/AddLikedSong',
+                method: 'POST',
+                headers: {
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: JSON.stringify({ songTitle:  ele.parentElement.parentElement.querySelector(".musict").textContent , user_id: 0  }),
+                contentType: 'application/json',
+                success: (data) => {
+                
+                  this.classList.add('onh');
+                  HeartMode = true;
+                
+                },
+                error: (xhr, status, error) => {
+                  console.error(error);
+                },
+              });
+            } else {
+              $.ajax({
+                url: '/DeleteLikedSong',
+                method: 'POST',
+                headers: {
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: JSON.stringify({ songTitle:  ele.parentElement.parentElement.querySelector(".musict").textContent, user_id: 0 }),
+                contentType: 'application/json',
+                success: (data) => {
+                 
+                  this.classList.remove('onh');
+                  HeartMode = false;
+                },
+                error: (xhr, status, error) => {
+                  console.error(error);
+                },
+              });
+            }
+        });
+  });
+}
+
+
+const sbtns = iframeDocument.querySelector('.playbtn');
+if(sbtns){
+sbtns.addEventListener('click',async ()=>{
+  songAb.textContent = iframeDocument.querySelector(".three").textContent;
+  songTb.textContent = await iframeDocument.querySelector(".two").textContent;
+        const newImage = document.createElement('img');
+        newImage.src = await iframeDocument.querySelector('.simg').getAttribute('src');
+        newImage.style.width = '50px';
+        newImage.style.height ='55px';
+       if(  Cred.querySelector('img')){
+        Cred.removeChild(Cred.querySelector('img')); 
+        Cred.appendChild(newImage);
+       }else{
+       Cred.appendChild(newImage);
+       } 
+       let HeartMode;
+      if(likedSongsCookie !=null){
+       
+        if (likedSongsCookie.includes(songTb.textContent)) {
+             HeartMode = true;
+             
+             hicon.classList.add('onh');
+        }else {
+            HeartMode = false;
+            hicon.classList.remove('onh');
+        }
+    }
+       const url = '/SongDetails/'+ iframeDocument.querySelector(".two").textContent.toString().toLocaleLowerCase();
+     
+
+       
+         try {
+           const response = await fetch(url, {
+             method: "get",
+             headers: {
+               "Content-Type": "application/json",
+             },
+           });
+           const data = await response.json();
+            song = data;
+            audio.src = data.mp3;
+            
+
+          
+           updatePlayBar();
+         } catch(error) {
+           console.log(error);
+         }
+})
+}
+const hpss = iframeDocument.querySelector('.hpl');
+console.log(hpss);
+if(hpss){
+  console.log('in if',iframeDocument.querySelector(".two").textContent.toString().toLocaleLowerCase())
+  if(likedSongsCookie !=null){
+    console.log('check liked')
+    if (likedSongsCookie.includes(iframeDocument.querySelector(".two").textContent.toString().toLocaleLowerCase())) {
+        console.log('adding onh')
+         hpss.classList.add('onh');
+    }else {
+      hpss.classList.remove('onh');
+    }
+}
+hpss.addEventListener('click',()=>{
+  if (!this.classList.contains('onh')) {
+    $.ajax({
+      url: '/AddLikedSong',
+      method: 'POST',
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
+      data: JSON.stringify({ songTitle:  iframeDocument.querySelector(".two").textContent.toString().toLocaleLowerCase() , user_id: 0  }),
+      contentType: 'application/json',
+      success: (data) => {
+       
+        this.classList.add('onh');
+        HeartMode = true;
+       
+      },
+      error: (xhr, status, error) => {
+        console.error(error);
+      },
+    });
+  } else {
+    $.ajax({
+      url: '/DeleteLikedSong',
+      method: 'POST',
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
+      data: JSON.stringify({ songTitle:  iframeDocument.querySelector(".two").textContent.toString().toLocaleLowerCase() , user_id: 0 }),
+      contentType: 'application/json',
+      success: (data) => {
+       
+        this.classList.remove('onh');
+        HeartMode = false;
+      },
+      error: (xhr, status, error) => {
+        console.error(error);
+      },
+    });
+  }
+})
+}
+
+const plylistplybtn =  iframeDocument.querySelectorAll('.lisplybtn');
+plylistplybtn.forEach(ele=>{
+ele.addEventListener('click',async ()=>{
+  const pele = ele.parentElement.parentElement;
+        songAb.textContent = pele.querySelector(".AlbumT").textContent;
+        songTb.textContent = await pele.querySelector(".musict").textContent;
+        const newImage = document.createElement('img');
+        newImage.src = await pele.querySelector('.simg').getAttribute('src');
+        newImage.style.width = '50px';
+        newImage.style.height ='55px';
+       if(  Cred.querySelector('img')){
+        Cred.removeChild(Cred.querySelector('img')); 
+        Cred.appendChild(newImage);
+       }else{
+       Cred.appendChild(newImage);
+       } 
+       let HeartMode;
+      if(likedSongsCookie !=null){
+       
+        if (likedSongsCookie.includes(songTb.textContent)) {
+             HeartMode = true;
+             
+             hicon.classList.add('onh');
+        }else {
+            HeartMode = false;
+            hicon.classList.remove('onh');
+        }
+    }
+       const url = '/SongDetails/'+ pele.querySelector(".musict").textContent.toString().toLocaleLowerCase();
+     
+
+       
+         try {
+           const response = await fetch(url, {
+             method: "get",
+             headers: {
+               "Content-Type": "application/json",
+             },
+           });
+           const data = await response.json();
+            song = data;
+            audio.src = data.mp3;
+            
+
+          
+           updatePlayBar();
+         } catch(error) {
+           console.log(error);
+         }
+})
+})
+
+const songA = iframeDocument.querySelectorAll('.songs');
+console.log(songA);
+songA.forEach(ele=>{
+ ele.addEventListener("click",()=>{
+   iframe.src = "/track/" + ele.querySelector('.musict').textContent;
+
+})
+})
+});
+const micbtn = document.querySelector('.mic');
+micbtn.addEventListener('click',()=>{
+ const mt = document.querySelector('.title');
+ iframe.src = '/lyrcis/'+mt.textContent;
+});
+
+audio.addEventListener('seeking', () => {
+
+});
+audio.addEventListener('seeked', () => {
+  updateTimeElapsed(); 
+  });
+  const playPauseButton = document.getElementById('play-pause');
+
 audio.addEventListener('ended', function() {
-  isPaused = true;
+  console.log('the songs has ended');
   playPauseButton.classList.remove('fa-pause');
   playPauseButton.classList.add('fa-play');
-  pausePosition = 0;
 });
 
 
-const playPauseButton = document.getElementById('play-pause');
-playPauseButton.addEventListener('click', function() {
+
+
+
+playPauseButton.addEventListener('click', async function() {
     if (!audio.paused) {
       this.classList.remove('fa-pause');
       this.classList.add('fa-play');
@@ -19,13 +399,45 @@ playPauseButton.addEventListener('click', function() {
       this.classList.add('fa-pause');
       audio.play();
       progressLoop();
-      updateTimeElapsed();  
+      updateTimeElapsed(); 
+      const bartitle = document.querySelector('.title') 
+      const url2 = 'SaveToHistory/'+ bartitle.textContent.toString().toLocaleLowerCase();
+      //saveH(bartitle.textContent);
+      $.ajax({
+        url: '/SaveToHistory',
+        method: 'POST',
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        data: JSON.stringify({ title:  bartitle.textContent }),
+        contentType: 'application/json',
+        success: (data) => {
+
+        //  updateHistorySongs()
+        },
+        error: (xhr, status, error) => {
+          console.error(error);
+        },
+      });
+  
   }
 });
 
 
+
 const progressBar = document.getElementById('progress-bar');
 progressBar.value = 0; // set initial value to 0
+
+progressBar.addEventListener("input",()=>{
+  audio.pause();
+
+  audio.currentTime =  audio.duration * (progressBar.value / 100);
+  updateTimeElapsed(); 
+  audio.play();
+
+})
+
+
 
 
 const timeD = document.getElementsByClassName('initial')[0];
@@ -48,6 +460,8 @@ function progressLoop() {
     }
   }, 100);
 }
+
+
 
 
 const shuffleButton = document.getElementById('shuffle');
@@ -106,7 +520,7 @@ function volumeIcon() {
   } else if (SoundVolume < 0.5 && SoundVolume != 0) {
     volumespeak.classList.toggle("fa-volume-down", true);
     volumespeak.classList.toggle("fa-volume-up", false);
-    console.log("in the else if of down sound");
+
   } else if (SoundVolume == 0) {
       volumespeak.classList.toggle("fa-volume-mute", true);
       volumespeak.classList.toggle("fa-volume-up", false);
@@ -173,3 +587,6 @@ let previousVolume = audio.volume;
         Slider1.addEventListener('input', (e) => {
           updateGradient(e.target.value);
         });
+
+   
+       

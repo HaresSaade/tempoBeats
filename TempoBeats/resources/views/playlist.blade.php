@@ -14,9 +14,11 @@
         </div>
     </div>
     <div class="down">   
+      <div><button onclick="callParentFunction({{$playlist->id}})" style="outline:none;  background-color: rgb(214, 175, 44);border-radius:50%;border:none; width:50px;height:50px;padding:5px 20px;margin-top:15px;margin-left:15px;"><i id="pllp" class="fas fa-play"></i></button></div>
     <table id="customers">
         <thead>
         <th>#</th>
+        <th></th>
     <th class="titleT">Title</th>
     <th class="AlbumT">Album</th>
     <th class="DateT">Date added</th>
@@ -25,12 +27,14 @@
   </thead>
     <tbody>
 @foreach($playlist->songs as $song)
-  <tr>
+  <tr class="songs">
     <td>{{$loop->index+1}}</td>
-    <td class="titleT">{{ $song->Name}}</td>
+    <td><img class="simg" src="{{asset($song->imgsrc)}}"  width="50px" height="50px"/></td>
+    <td class="titleT musict">{{ $song->Name}}</td>
     <td class="AlbumT">{{ $song->album ? $song->album->Name : 'No Album' }}</td>
     <td class="DateT">{{ $song->created_at->diffForHumans() }}</td>
-    <td><i class="fas fa-heart HbtnLp"></i></td>
+    <td ><i class="fas fa-heart hal"></i> </td>
+    <td><i class="fas fa-play lisplybtn"></i></td>
     <td>{{ gmdate("i:s", $song->Duration) }}</td>
   </tr>
 @endforeach
@@ -48,6 +52,12 @@
     <script>
 
         
+
+  function callParentFunction(plyid) {
+   
+    window.parent.loadplay(plyid);
+    
+  }
 
 
       

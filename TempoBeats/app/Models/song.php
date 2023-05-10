@@ -30,4 +30,7 @@ class song extends Model
         
     }
 
+    public function getHistoryUser(){
+        return $this->hasMany(history::class);
+    }
 }

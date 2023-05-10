@@ -1,4 +1,4 @@
-<!doctype html>
+<!Doctype html>
 <html lang="en" data-bs-theme="auto">
   <head><script src="{{asset('assets/js/color-modes.js')}}"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -280,7 +280,7 @@ table{
         <div class="btn-toolbar mb-2 mb-md-0">
           <div class="btn-group me-2">
             <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-            <button id="export-button" type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+            <button id="export-button" type="button" class="btn btn-sm btn-outline-secondary" onclick="exportToExcel()">Export</button>
           </div>
           <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
             <span data-feather="calendar" class="align-text-bottom"></span>
@@ -400,10 +400,16 @@ table{
         <label for="name">Duration</label>
         <input type="text" name="Duration" placeholder="Duration"/>  
         <label for="Artist">Artist Name</label>
-        <input type="text" name="Artist" placeholder="Artist"/> 
+        <input type="text" name="Artist" placeholder="Artist"/>
+        <label for="Artist">Background Color</label>
+        <input type="text" name="bgc" placeholder="Bgc: #fff"/> 
         <label>Image</label>
         <div class="input-group">
   <input type="file" class="form-control" name="imgsrc" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04"style="color:white;box-shadow:-2px 5px 7px #131313;"/>
+</div>
+<label>Song File</label>
+        <div class="input-group">
+  <input type="file" class="form-control" name="mp4file" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04"style="color:white;box-shadow:-2px 5px 7px #131313;"/>
 </div>
         <button type="submit">Add Song</button>
     </form>
@@ -432,6 +438,7 @@ table{
   </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.16.9/dist/xlsx.full.min.js"></script>
 
 <script>
   var data = [150, 200, 300, 250, 350, 400, 348];
@@ -634,12 +641,52 @@ var ctxp = document.getElementById('website-traffic-chart').getContext('2d');
    })
   })
 
+  function exportToExcel() {
+  // Get the chart object
+  var chart = Chart.instances[0];
+
+  // Get the chart data
+  var chartData = chart.data.datasets[0].data;
+  var chartLabels = chart.data.labels;
+
+  // Create an array of rows for the Excel worksheet
+  var rows = [];
+
+  // Add the data rows to the rows array
+  chartData.forEach(function(data, i) {
+    var row = [chartLabels[i], data];
+    rows.push(row);
+  });
+
+  // Swap the first and last rows to match the desired format
+  var temp = rows[0];
+  rows[0] = rows[6];
+  rows[6] = temp;
+
+  // Add the column headers to the rows array
+  rows.unshift(["Label", "Data"]);
+
+  // Convert the rows array to an Excel worksheet
+  var worksheet = XLSX.utils.aoa_to_sheet(rows);
+
+  // Create a new Excel workbook
+  var workbook = XLSX.utils.book_new();
+
+  // Add the worksheet to the workbook
+  XLSX.utils.book_append_sheet(workbook, worksheet, "Chart Data");
+
+  // Save the workbook as an Excel file
+  XLSX.writeFile(workbook, "chart-data.xlsx");
+}
+
+
+
+
 </script>
 
 
 
     <script src="{{asset('assets/dist/js/bootstrap.bundle.min.js')}}"></script>
-
       <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/chart.js@4.2.1/dist/chart.umd.min.js" integrity="sha384-gdQErvCNWvHQZj6XZM0dNsAoY4v+j5P1XDpNkcM3HJG1Yx04ecqIHk7+4VBOCHOG" crossorigin="anonymous"></script><script src="{{asset('js/dashboard.js')}}"></script>
   </body>
 </html>

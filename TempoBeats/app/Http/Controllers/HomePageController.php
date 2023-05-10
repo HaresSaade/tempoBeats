@@ -39,14 +39,32 @@ class HomePageController extends Controller
           
         }
         $allply = playlist::all();
+        
         $response = view('welcome', ['songs'=>$songs,'playlists'=>$allply]);
         if ($likedSongsString) {
             Cookie::queue('liked_songs', $likedSongsString, 60*24*7, null, null, false, false);
+        }else{
+            Cookie::queue('liked_songs', null, 60*24*7, null, null, false, false);
         }
         return $response;
     }
     
-    
 
+    public function getsongDetail($name){
+        $song = song::where('Name', $name)->first();
+        return view('song')->with('song',$song);
+    }
+    
+    public function getPrivacy(){
+
+        $file_path = public_path('download/TempoBeatsPrivacyPolicy.pdf'); 
+        return response()->download($file_path);
+    }
+
+    public function getTermsOfService(){
+
+        $file_path = public_path('download/TempoBeatsTermsOfService.pdf'); 
+        return response()->download($file_path);
+    }
     
 }

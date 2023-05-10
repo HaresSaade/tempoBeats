@@ -6,7 +6,7 @@
         max-height:89.2vh;
         display:flex;
         justify-content:center;
-        background-color:#df9898;
+        
         overflow-y:scroll;
 
     }
@@ -18,15 +18,15 @@
         min-height:80%;
         margin-top:30px;
         letter-spacing:2px;
-        word-spacing:10px;
+        word-spacing:pre-line;
         font-family:sans-serif;
         line-height:42px;
     }
 </style>
 @section('content')
-<div class="lyrics-page">
+<div class="lyrics-page" style="background-color:{!!$song->bgc!!}">
  
-<p id="lyrics">
+<p id="lyrics" style="white-space:pre-line;">
 {{$song->lyrics}} </p>
 </div>
 

@@ -30,7 +30,9 @@
   <td>{{$loop->index+1}}</td>
     <td class="titleT">{{ $song->Name}}</td>
     <td class="AlbumT">{{ $song->album ? $song->album->Name : 'No Album' }}</td>
-    <td class="DateT">{{ $song->created_at->diffForHumans() }}</td>
+    
+    <td class="DateT">{{ $song->pivot->created_at->diffForHumans() }}</td>
+    
     <td><i class="fas fa-heart HbtnLp"></i></td>
     <td>{{ gmdate("i:s", $song->Duration) }}</td>
   </tr>

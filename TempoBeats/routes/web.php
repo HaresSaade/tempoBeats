@@ -33,9 +33,7 @@ Route::get('/search',[SearchController::class,'index'])->name('Search');
 
 Route::get('/dashboard',[dashboardController::class,'index'])->middleware(['auth', 'verified','checkRole'])->name('dashboard');
 
-Route::get('/track/{trackid}', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('track');
+Route::get('/track/{name}', [HomePageController::class,'getsongDetail'])->middleware(['auth', 'verified'])->name('track');
 
 Route::get('/playlist/{playlistname}',[PlaylistController::class,'index'])->middleware(['auth', 'verified'])->name('playlist');
 
@@ -71,8 +69,8 @@ Route::middleware('auth')->group(function () {
 });
 
 
-Route::get('SongDetails/{title}',[SongsController::class,'GetSong'])
-->name('trackinf');
+Route::get('SongDetails/{title}',[SongsController::class,'GetSong'])->middleware(['auth','verified'])->name('trackinf');
+Route::get('PlayListsongs/{id}',[PlaylistController::class,'GetPLaySong'])->middleware(['auth','verified'])->name('trackinf');
 require __DIR__.'/auth.php';
 
 Auth::routes();
@@ -86,9 +84,12 @@ Route::get('/searchs',[SearchController::class,'Ssongs'])->middleware(['auth','v
 Route::post('/addSong',[dashboardController::class,'store'])->middleware(['auth', 'verified','checkRole'])->name('addSong');
 Route::post('/addplaylist',[dashboardController::class,'playlist'])->middleware(['auth', 'verified','checkRole'])->name('addplaylist');
 Route::post('/export', [dashboardController::class, 'exportToExcel'])->middleware(['auth', 'verified','checkRole']);
-Route::get('/lyrcis/{id}',[SongsController::class,'lyrcis'])->middleware(['auth','verified'])->name('lyrics');
+Route::get('/lyrcis/{name}',[SongsController::class,'lyrcis'])->middleware(['auth','verified'])->name('lyrics');
 Route::get('/delete/{id}',[dashboardController::class,'delete'])->middleware(['auth','verified'])->name('deletesong');
 Route::get('/deletep/{id}',[dashboardController::class,'deletep'])->middleware(['auth','verified'])->name('deleteplaylist');
 Route::get('/Allsongs',[SongsController::class,'Allsongs'])->middleware(['auth','verified'])->name('Allsongs');
 
-
+Route::post('/SaveToHistory',[SongsController::class,'saveSong'])->middleware(['auth','verified']);
+Route::get('/getHistory',[SongsController::class,'getHistory'])->middleware(['auth','verified']);
+Route::get('/DownloadPrivacy',[HomePageController::class,'getPrivacy'])->name('downloadPrivacy');
+Route::get('/DownloadTerms',[HomePageController::class,'getTermsOfService'])->name('downloadTerms');

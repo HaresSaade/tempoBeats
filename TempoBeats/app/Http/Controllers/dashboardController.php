@@ -26,9 +26,16 @@ class dashboardController extends Controller
             'lyrics'=>'required',
             'Duration'=>'required|integer',
             'Artist'=>'required',
-            'imgsrc'=>'required'
+            'imgsrc'=>'required',
+            'mp4file'=>'required',
+            'bgc'=>'required'
         ]);
         $art = artist::where('name',$request->Artist)->first();
+        if($art == null){
+            $art = new artist();
+            $art->name = $request->Artist;
+            $art->save();
+        }
         $song = new song();
         $song->name=$request->name;
         $song->lyrics=$request->lyrics;
@@ -37,8 +44,14 @@ class dashboardController extends Controller
         $request->file('imgsrc')->storeAs('public/images',$filename);
         $tosave= 'storage/images/'.$filename;
         $song->imgsrc=$tosave;
+        $mp4filename= time().'.'.$request->file('mp4file')->getClientOriginalExtension();
+        $request->file('mp4file')->storeAs('public/mp4',$mp4filename);
+        $tosavem= 'storage/mp4/'.$mp4filename;
+        $song->mp4file=$tosavem;
+        $song->bgc=$request->bgc;
         $song->save();
         $obj = new SongArtists();
+
         $obj->artist_id = $art->id;
         $obj->song_id =$song->id;
         $obj->save();

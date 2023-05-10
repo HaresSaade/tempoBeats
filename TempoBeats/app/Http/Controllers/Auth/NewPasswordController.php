@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use App\Mail\resetPassword;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Auth;
 
 class NewPasswordController extends Controller
 {
@@ -47,9 +50,10 @@ class NewPasswordController extends Controller
                 ])->save();
 
                 event(new PasswordReset($user));
+                Mail::to($user->email)->send(new resetPassword());
             }
         );
-
+        
         // If the password was successfully reset, we will redirect the user back to
         // the application's home authenticated view. If there is an error we can
         // redirect them back to where they came from with their error message.

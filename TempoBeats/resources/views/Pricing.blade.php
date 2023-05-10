@@ -87,11 +87,15 @@
         border: 2px solid #d6af2c;
       }
       .btn-outline-primary:hover{
-        background-color:#d6af2c;
+        background-color:#fff;
         
       }
       #btnd:hover{
         color:white;
+      }
+      td,th{
+        color:white;
+        border-bottom:1.5px solid #d6af2c;
       }
     </style>
 
@@ -136,8 +140,8 @@
     </div>
 
     <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
-      <h1 class="display-4 fw-normal">Upgrade to Plus Account</h1>
-      <p class="fs-5 text-body-secondary">Quickly build an effective pricing table for your potential customers with this Bootstrap example. It’s built with default Bootstrap components and utilities with little customization.</p>
+      <h1 class="display-4 fw-normal">Upgrade to Premium</h1>
+
     </div>
   </header>
 
@@ -151,29 +155,30 @@
           <div class="card-body">
             <h1 class="card-title pricing-card-title">$0<small class="text-body-secondary fw-light">/mo</small></h1>
             <ul class="list-unstyled mt-3 mb-4">
-              <li>10 users included</li>
-              <li>2 GB of storage</li>
+              <li>2 users included</li>
+              <li>1 GB of storage</li>
               <li>Email support</li>
               <li>Help center access</li>
             </ul>
-            <button type="button" class="w-100 btn btn-lg btn-outline-primary" style="border:2px solid  #d6af2c; color:#d6af2c">Sign up for free</button>
+            <button type="button" class="w-100 btn btn-lg btn-outline-primary" style="border:2px solid  #131313; color:#050132">Sign up for free</button>
           </div>
         </div>
       </div>
       <div class="col">
         <div class="card mb-4 rounded-3 shadow-sm">
-          <div class="card-header py-3">
+          <div class="card-header py-3" style="background-color:#C0C0C0;">
             <h4 class="my-0 fw-normal">Monthly</h4>
           </div>
           <div class="card-body">
             <h1 class="card-title pricing-card-title">$15<small class="text-body-secondary fw-light">/mo</small></h1>
             <ul class="list-unstyled mt-3 mb-4">
-              <li>20 users included</li>
+              <li>6 users included</li>
+              <li> No Adds!</li>
               <li>10 GB of storage</li>
               <li>Priority email support</li>
               <li>Help center access</li>
             </ul>
-            <button id="btnd" type="button" class="w-100 btn btn-lg btn-primary" style="background-color: #d6af2c;border:2px solid  #d6af2c;">Get started</button>
+            <button id="btnd" type="button" class="w-100 btn btn-lg btn-primary" style="background-color: #bdb3b3 ; border:none;">Purchase</button>
           </div>
         </div>
       </div>
@@ -185,12 +190,15 @@
           <div class="card-body">
             <h1 class="card-title pricing-card-title">$29<small class="text-body-secondary fw-light">/mo</small></h1>
             <ul class="list-unstyled mt-3 mb-4">
+              
               <li>30 users included</li>
-              <li>15 GB of storage</li>
+              <li> No Adds!</li>
+              <li>30 GB of storage</li>
               <li>Phone and email support</li>
               <li>Help center access</li>
+              
             </ul>
-            <button type="button" class="w-100 btn btn-lg btn-primary" style="background-color: #d6af2c;border:2px solid  #d6af2c;">Contact us</button>
+            <button type="button" class="w-100 btn btn-lg btn-primary" style="background-color: #d6af2c;border:2px solid  #d6af2c;">Purchase</button>
           </div>
         </div>
       </div>

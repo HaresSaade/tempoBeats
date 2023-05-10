@@ -27,4 +27,10 @@ class PlaylistController extends Controller
         $playlistsongs->delete();
         return "song deleted from playlist";
     }
+
+    public function GetPLaySong($id){
+        $playlist = Playlist::find($id);
+        return $playlist->songs;
+
+    }
 }

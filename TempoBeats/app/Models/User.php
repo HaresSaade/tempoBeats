@@ -74,4 +74,8 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->getRole()->where('name', $roleName)->exists();
     }
+
+    public function getHistorySong(){
+        return $this->hasMany(history::class)->with('getSong')->orderByDesc('created_at');
+    }
 }

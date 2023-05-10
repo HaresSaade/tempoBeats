@@ -35,20 +35,30 @@ tr:nth-child(even) {
 </style>
 <div class="allsongs">
 <table>
+  <tbody>
 <tr><td><h3>Songs:</h3></td>
   </tr>
 
  @foreach($Allsongs as $obj)
 
- <tr>
-    <td><img src="{{asset($obj->imgsrc)}}" /></td>    
-    <td>{{$obj->Name}}</td>
-    <td></td>
+ <tr class="songs">
+ 
+    <td ><img  src="{{asset($obj->imgsrc)}}" /></td>    
+    <td class="musict">{{$obj->Name}}</td>
+    <td class="art">{{ $obj->artist->implode('name', ' & ')  }}</td>
     <td>{{ gmdate("i:s", $obj->Duration) }}</td>
-    <td><i id="Heart" class="fas fa-heart HbtnLp"></i></td>
-    <td><i class="fas fa-play playbt"></i></td>
+    <td><i class="fas fa-heart hal"></i></i></td>
+    <td><i class="fas fa-play plybtt"></i></td>
 
   </tr>
+
   @endforeach
+</tbody>
+  </table>
 </div>
+<script>
+
+
+</script>
+
 @endsection
